@@ -2,7 +2,7 @@
   "private": true,
   "name": "DVLPER",
   "description": "DVLPER - iOS Developer portfolio",
-  "version": "1.0",
+  "version": "1.0.0",
   "author": "Waseem Akram",
   "license": "MIT",
   "starter-name": "gatsby-starter-minimal-blog",
