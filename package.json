@@ -24,8 +24,11 @@
     "gatsby-plugin-offline": "^2.2.4",
     "gatsby-plugin-sitemap": "^2.2.19",
     "gatsby-plugin-webpack-bundle-analyser-v2": "^1.1.10",
+    "gatsby-remark-images-medium-zoom": "^1.7.0",
     "react": "^16.13.1",
-    "react-dom": "^16.13.1"
+    "react-dom": "^16.13.1",
+    "react-gist": "^1.2.2",
+    "react-medium-image-zoom": "^4.3.1"
   },
   "devDependencies": {
     "cross-env": "^5.2.0"
