@@ -45,7 +45,7 @@ const buttonStyle = {
     
 }
 
-function ProjectContent({title,subtitle,image,icon,github,appstore,playstore}){
+function ProjectContent({title,subtitle,images,icon,github,appstore,playstore}){          
     let appstoreLink,githubLink,playstoreLink
     if(appstore){
         appstoreLink = <Link href={appstore} ><Image src="/appstorebutton.png" alt="download on app store" sx={appStoreButtonStyle}  /></Link>
@@ -63,9 +63,9 @@ function ProjectContent({title,subtitle,image,icon,github,appstore,playstore}){
             <Text variant="styles.p" sx={textStyle}>
                 {subtitle}
             </Text>
-            <Zoom> 
-                <Image src={image} />
-            </Zoom>
+            <Flex sx={{flexDirection:"row",alignItems:"center",justifyContent:"center",flexWrap:`wrap`}}>
+                {images.map((image) =>  <Zoom><Image sx={{maxWidth:250,maxHeight:500,margin:4}} src={image} key={image}/></Zoom> )}
+            </Flex>
             {appstoreLink}
             {githubLink}
             {playstoreLink}
