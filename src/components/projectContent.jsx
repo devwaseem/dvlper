@@ -32,7 +32,7 @@ const buttonStyle = {
     mt:12
 }
 
-function ProjectContent({title,subtitle,images,icon,github,appstore,playstore,producthuntId,producthunt,video}){          
+function ProjectContent({title,subtitle,images,icon,github,appstore,playstore,producthuntId,producthunt,video,isIpad}){          
     let appstoreLink,githubLink,playstoreLink,producthuntLink
     if(appstore){
         appstoreLink = <Link href={appstore} ><Image src="/appstorebutton.svg" alt="download on app store" sx={appStoreButtonStyle}  /></Link>
@@ -53,9 +53,16 @@ function ProjectContent({title,subtitle,images,icon,github,appstore,playstore,pr
             <Text variant="styles.p" sx={textStyle}>
                 {subtitle}
             </Text>
-            <Flex sx={{flexDirection:"row",alignItems:"center",justifyContent:"center",flexWrap:`wrap`,mt:4}}>
+            { !isIpad && images && <Flex sx={{flexDirection:"row",alignItems:"center",justifyContent:"center",flexWrap:`wrap`,mt:4}}>
                 {images.map((image) =>  <Zoom><Image sx={{maxWidth:250,maxHeight:500,margin:4}} src={image} key={image}/></Zoom> )}
+            </Flex>}
+            {isIpad && images &&
+            <Flex sx={{flexDirection:"row",alignItems:"center",justifyContent:"center",flexWrap:`wrap`,mt:4}}>
+            <Zoom>
+                <Image sx={{height:[300,400,700],margin:4}} src={images[0]} key={images[0]}/>
+            </Zoom>
             </Flex>
+            }
             {video && 
                 <div className='player-wrapper'>
                     <ReactPlayer
