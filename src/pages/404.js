@@ -4,7 +4,7 @@ import "./404.css"
 
 const fourzerofour = () => {
     return (
-        <html>
+        <html lang="en-US">
             <head>
                 <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@600;900&display=swap" rel="stylesheet"/>
                 

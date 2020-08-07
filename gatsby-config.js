@@ -6,11 +6,12 @@ const shouldAnalyseBundle = process.env.ANALYSE_BUNDLE
 
 module.exports = {
   siteMetadata: {
-    siteTitle: `{ DVLPER }`,
+    siteTitle: `DVLPER`,
     siteTitleAlt: `DVLPER - iOS Developer Portfolio`,
     siteHeadline: `DVLPER - iOS Developer Portfolio`,
     author: `@Waseem Akram`,
     siteImage: `/banner.jpg`,
+    banner: `/banner.jpg`,
     siteUrl: `https://dvlper.in`,
     siteLanguage: `en`,
     siteDescription: `Waseem Akram - iOS Developer Portfolio`,
@@ -80,6 +81,20 @@ module.exports = {
           },
         ],
       },
+    },
+    {
+      resolve: `gatsby-remark-images-medium-zoom`,
+    },
+    {
+      resolve: "gatsby-plugin-page-progress",
+      options: {
+        includePaths: [{ regex: "^/blog" }],
+        excludePaths: [],
+        height: 6,
+        prependToBody: false,
+        color: `#323646`,
+        footerHeight: 500,
+      }
     },
     `gatsby-plugin-offline`,
     `gatsby-plugin-netlify`,
