@@ -1,3 +1,5 @@
+/* @jsx jsx */
+import {jsx} from "theme-ui"
 import React from "react"
 import {Heading,Text,Image,Flex} from "theme-ui"
 import Zoom from 'react-medium-image-zoom'
@@ -44,7 +46,7 @@ function ProjectContent({title,subtitle,images,icon,github,appstore,playstore,pr
         playstoreLink = <a href={playstore} target="_blank"><Image src="/playstorebutton.png" alt="download on playstore store" sx={buttonStyle}  /></a>
     }
     if(producthunt && producthuntId){
-        producthuntLink = <div><p sx={{height:50,width:50}}/><a href={producthunt} target="_blank"><img src={"https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id="+producthuntId+"&theme=dark"} alt="Producthunt button" /></a></div>
+        producthuntLink = <div><p sx={{height:30,width:50}}/><a href={producthunt} target="_blank"><img src={"https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id="+producthuntId+"&theme=dark"} alt="Producthunt button" /></a></div>
     }
     return (
         <Flex sx={{flexDirection:"column",alignItems:"center"}}>

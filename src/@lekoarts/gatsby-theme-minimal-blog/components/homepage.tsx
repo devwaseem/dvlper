@@ -39,11 +39,11 @@ const Homepage = ({ posts }: PostsProps) => {
       <section sx={{ mb: [5, 6, 7], p: { fontSize: [1, 2, 3], mt: 2 } }}>
         <Hero />
       </section>
-      <section sx={{ mb: [5, 6, 7], p: { fontSize: [1, 2, 3], mt: 2 } }}>
+      <section sx={{ mb: 5, p: { fontSize: [1, 2, 3], mt: 2 } }}>
       <Title text="Projects" > </Title>
         <Project />
       </section>
-      <section sx={{ mb: [5, 6, 7], p: { fontSize: [1, 2, 3], mt: 2 } }}>
+      <section sx={{ mb: 5, p: { fontSize: [1, 2, 3], mt: 2 } }}>
       <Title text="Skills" > </Title>
       <Skills />
       </section>
