@@ -26,50 +26,58 @@ const buttonStyle = {
     mt:12
 }
 
+const animatorProps = {
+    "data-sal":"slide-up",
+    "data-sal-delay":"300",
+    "data-sal-easing":"easeOut"
+}
+
 function ProjectContent({title,subtitle,images,icon,github,appstore,playstore,producthuntId,producthunt,video,isIpad,titleUrl,techUsed}){          
     let appstoreLink,githubLink,playstoreLink,producthuntLink
     if(appstore){
-        appstoreLink = <a href={appstore} target="_blank"><Image src="/appstorebutton.svg" alt="download on app store" sx={buttonStyle}  /></a>
+        appstoreLink = <a href={appstore} target="_blank" rel="noreferrer"><Image {...animatorProps} src="/appstorebutton.svg" alt="download on app store" sx={buttonStyle}  /></a>
     }
     if(github){
-        githubLink = <a href={github} target="_blank"><Image src="/githubbutton.png" alt="view on github" sx={buttonStyle}  /> </a>
+        githubLink = <a href={github} target="_blank" rel="noreferrer"><Image {...animatorProps} src="/githubbutton.png" alt="view on github" sx={buttonStyle}  /> </a>
     }
     if(playstore){
-        playstoreLink = <a href={playstore} target="_blank"><Image src="/playstorebutton.svg" alt="download on playstore store" sx={buttonStyle}  /></a>
+        playstoreLink = <a href={playstore} target="_blank" rel="noreferrer"><Image {...animatorProps} src="/playstorebutton.svg" alt="download on playstore store" sx={buttonStyle}  /></a>
     }
     if(producthunt && producthuntId){
-        producthuntLink = <div><p sx={{height:30,width:50}}/><a href={producthunt} target="_blank"><img src={"https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id="+producthuntId+"&theme=dark"} alt="Producthunt button" /></a></div>
+        producthuntLink = <div><p sx={{height:30,width:50}}/><a href={producthunt} target="_blank" rel="noreferrer"><img {...animatorProps} src={"https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id="+producthuntId+"&theme=dark"} alt="Producthunt button" /></a></div>
     }
     return (
         <Flex sx={{flexDirection:"column",alignItems:"center"}}>
-            {icon && <Zoom zoomMargin={160} ><Image src={icon} sx={{width:120,height:120,mt:20, borderRadius:12}}/></Zoom> }
+            {icon && <Zoom zoomMargin={160} ><Image {...animatorProps} src={icon} sx={{width:120,height:120,mt:20, borderRadius:12}}/></Zoom> }
             {titleUrl && 
-                <a href={titleUrl}><Heading variant="styles.h3" sx={headingStyle}>{title}</Heading></a> 
+                <a href={titleUrl}><Heading variant="styles.h3" {...animatorProps} sx={headingStyle}>{title}</Heading></a> 
             }
             {!titleUrl && 
-                <Heading variant="styles.h3" sx={headingStyle}>{title}</Heading>
+                <Heading variant="styles.h3" {...animatorProps} sx={headingStyle}>{title}</Heading>
              }
             {subtitle && 
-            <Text variant="styles.p" sx={textStyle}> {subtitle} </Text>
+            <Text variant="styles.p" {...animatorProps} sx={textStyle}> {subtitle} </Text>
             }
             {techUsed && 
             <>
-                <Text variant="styles.h6" sx={{mt:4}}>Technolgies Used: </Text>
-                <Text variant="styles.p" sx={textStyle}> {techUsed} </Text>
+                <Text variant="styles.h6" {...animatorProps} sx={{mt:4}}>Technolgies Used: </Text>
+                <Text variant="styles.p" {...animatorProps} sx={textStyle}> {techUsed} </Text>
             </>
             }
-            { !isIpad && images && <Flex sx={{flexDirection:"row",alignItems:"center",justifyContent:"center",flexWrap:`wrap`,mt:4}}>
-                {images.map((image) =>  <Zoom><Image sx={{maxWidth:250,maxHeight:500,margin:4}} src={image} key={image}/></Zoom> )}
-            </Flex>}
+            { !isIpad && images && 
+            <Flex sx={{flexDirection:"row",alignItems:"center",justifyContent:"center",flexWrap:`wrap`,mt:4}}>
+                {images.map((image) =>  <Zoom><Image {...animatorProps} sx={{maxWidth:250,maxHeight:500,margin:4}} src={image} key={image}/></Zoom> )}
+            </Flex>
+            }
             {isIpad && images &&
             <Flex sx={{flexDirection:"row",alignItems:"center",justifyContent:"center",flexWrap:`wrap`,mt:4}}>
             <Zoom>
-                <Image sx={{height:[200,450,700],margin:[1,2,4],objectFit:'contain'}} src={images[0]} key={images[0]}/>
+                <Image {...animatorProps} sx={{height:[200,450,700],margin:[1,2,4],objectFit:'contain'}} src={images[0]} key={images[0]}/>
             </Zoom>
             </Flex>
             }
             {video && 
-                <div className='player-wrapper'>
+                <div {...animatorProps} className='player-wrapper'>
                     <ReactPlayer
                     className='react-player'
                     url={video}
@@ -81,7 +89,6 @@ function ProjectContent({title,subtitle,images,icon,github,appstore,playstore,pr
                     />
                 </div>
             }
-
             {producthuntLink}
             {appstoreLink}
             {playstoreLink}

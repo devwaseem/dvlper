@@ -96,6 +96,12 @@ module.exports = {
         footerHeight: 500,
       }
     },
+    {
+      resolve: `gatsby-plugin-scroll-reveal`,
+      options: {
+          once:true
+      }
+    },
     `gatsby-plugin-offline`,
     `gatsby-plugin-netlify`,
     shouldAnalyseBundle && {
