@@ -20,37 +20,29 @@ const textStyle = {
     textAlign:"center",
 }
 
-const appStoreButtonStyle = {
+const buttonStyle = {
     width:180,
     height:60,
-    mt:12
-}
-
-const buttonStyle = {
-    maxWidth:180,
-    minWidth:80,
-    maxHeight:60,
-    minHeight:30,
     mt:12
 }
 
 function ProjectContent({title,subtitle,images,icon,github,appstore,playstore,producthuntId,producthunt,video,isIpad,titleUrl,techUsed}){          
     let appstoreLink,githubLink,playstoreLink,producthuntLink
     if(appstore){
-        appstoreLink = <a href={appstore} target="_blank"><Image src="/appstorebutton.svg" alt="download on app store" sx={appStoreButtonStyle}  /></a>
+        appstoreLink = <a href={appstore} target="_blank"><Image src="/appstorebutton.svg" alt="download on app store" sx={buttonStyle}  /></a>
     }
     if(github){
         githubLink = <a href={github} target="_blank"><Image src="/githubbutton.png" alt="view on github" sx={buttonStyle}  /> </a>
     }
     if(playstore){
-        playstoreLink = <a href={playstore} target="_blank"><Image src="/playstorebutton.png" alt="download on playstore store" sx={buttonStyle}  /></a>
+        playstoreLink = <a href={playstore} target="_blank"><Image src="/playstorebutton.svg" alt="download on playstore store" sx={buttonStyle}  /></a>
     }
     if(producthunt && producthuntId){
         producthuntLink = <div><p sx={{height:30,width:50}}/><a href={producthunt} target="_blank"><img src={"https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id="+producthuntId+"&theme=dark"} alt="Producthunt button" /></a></div>
     }
     return (
         <Flex sx={{flexDirection:"column",alignItems:"center"}}>
-            {icon && <Image src={icon} sx={{width:120,height:120,mt:20, borderRadius:12}}/> }
+            {icon && <Zoom zoomMargin={160} ><Image src={icon} sx={{width:120,height:120,mt:20, borderRadius:12}}/></Zoom> }
             {titleUrl && 
                 <a href={titleUrl}><Heading variant="styles.h3" sx={headingStyle}>{title}</Heading></a> 
             }
