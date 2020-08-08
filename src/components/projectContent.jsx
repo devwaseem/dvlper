@@ -1,5 +1,5 @@
 import React from "react"
-import {Heading,Text,Image,Flex,Link} from "theme-ui"
+import {Heading,Text,Image,Flex} from "theme-ui"
 import Zoom from 'react-medium-image-zoom'
 import 'react-medium-image-zoom/dist/styles.css'
 import ReactPlayer from 'react-player/youtube'
@@ -15,7 +15,7 @@ const headingStyle = {
 const textStyle = {
     minWidth:320,
     maxWidth:800,
-    textAlign:"center"
+    textAlign:"center",
 }
 
 const appStoreButtonStyle = {
@@ -32,34 +32,45 @@ const buttonStyle = {
     mt:12
 }
 
-function ProjectContent({title,subtitle,images,icon,github,appstore,playstore,producthuntId,producthunt,video,isIpad}){          
+function ProjectContent({title,subtitle,images,icon,github,appstore,playstore,producthuntId,producthunt,video,isIpad,titleUrl,techUsed}){          
     let appstoreLink,githubLink,playstoreLink,producthuntLink
     if(appstore){
-        appstoreLink = <Link href={appstore} ><Image src="/appstorebutton.svg" alt="download on app store" sx={appStoreButtonStyle}  /></Link>
+        appstoreLink = <a href={appstore} target="_blank"><Image src="/appstorebutton.svg" alt="download on app store" sx={appStoreButtonStyle}  /></a>
     }
     if(github){
-        githubLink = <Link href={github} ><Image src="/githubbutton.png" alt="view on github" sx={buttonStyle}  /> </Link>
+        githubLink = <a href={github} target="_blank"><Image src="/githubbutton.png" alt="view on github" sx={buttonStyle}  /> </a>
     }
     if(playstore){
-        playstoreLink = <Link href={playstore} ><Image src="/playstorebutton.png" alt="download on playstore store" sx={buttonStyle}  /></Link>
+        playstoreLink = <a href={playstore} target="_blank"><Image src="/playstorebutton.png" alt="download on playstore store" sx={buttonStyle}  /></a>
     }
     if(producthunt && producthuntId){
-        producthuntLink = <div><p sx={{height:50,width:50}}/><Link href={producthunt} ><img src={"https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id="+producthuntId+"&theme=dark"} alt="Producthunt button" /></Link></div>
+        producthuntLink = <div><p sx={{height:50,width:50}}/><a href={producthunt} target="_blank"><img src={"https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id="+producthuntId+"&theme=dark"} alt="Producthunt button" /></a></div>
     }
     return (
         <Flex sx={{flexDirection:"column",alignItems:"center"}}>
             {icon && <Image src={icon} sx={{width:120,height:120,mt:20, borderRadius:12}}/> }
-            <Heading variant="styles.h3" sx={headingStyle}>{title}</Heading>
-            <Text variant="styles.p" sx={textStyle}>
-                {subtitle}
-            </Text>
+            {titleUrl && 
+                <a href={titleUrl}><Heading variant="styles.h3" sx={headingStyle}>{title}</Heading></a> 
+            }
+            {!titleUrl && 
+                <Heading variant="styles.h3" sx={headingStyle}>{title}</Heading>
+             }
+            {subtitle && 
+            <Text variant="styles.p" sx={textStyle}> {subtitle} </Text>
+            }
+            {techUsed && 
+            <>
+                <Text variant="styles.h6" sx={{mt:4}}>Technolgies Used: </Text>
+                <Text variant="styles.p" sx={textStyle}> {techUsed} </Text>
+            </>
+            }
             { !isIpad && images && <Flex sx={{flexDirection:"row",alignItems:"center",justifyContent:"center",flexWrap:`wrap`,mt:4}}>
                 {images.map((image) =>  <Zoom><Image sx={{maxWidth:250,maxHeight:500,margin:4}} src={image} key={image}/></Zoom> )}
             </Flex>}
             {isIpad && images &&
             <Flex sx={{flexDirection:"row",alignItems:"center",justifyContent:"center",flexWrap:`wrap`,mt:4}}>
             <Zoom>
-                <Image sx={{height:[300,400,700],margin:4}} src={images[0]} key={images[0]}/>
+                <Image sx={{height:[200,450,700],margin:[1,2,4],objectFit:'contain'}} src={images[0]} key={images[0]}/>
             </Zoom>
             </Flex>
             }
@@ -67,7 +78,7 @@ function ProjectContent({title,subtitle,images,icon,github,appstore,playstore,pr
                 <div className='player-wrapper'>
                     <ReactPlayer
                     className='react-player'
-                    url={"https://youtu.be/34MJTPKVjUI"}
+                    url={video}
                     width="100%" 
                     height="100%"
                     playsinline={true}
@@ -76,6 +87,7 @@ function ProjectContent({title,subtitle,images,icon,github,appstore,playstore,pr
                     />
                 </div>
             }
+
             {producthuntLink}
             {appstoreLink}
             {playstoreLink}
