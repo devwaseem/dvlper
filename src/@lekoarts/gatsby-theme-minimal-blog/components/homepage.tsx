@@ -40,7 +40,9 @@ const Homepage = ({ posts }: PostsProps) => {
         <Hero />
       </section>
       <section sx={{ mb: 5, p: { fontSize: [1, 2, 3], mt: 2 } }}>
-      <Title text="Projects" > </Title>
+      <Title text="Projects" > 
+        <Link to="/projects">See all Projects, UI designs</Link>
+      </Title>
         <Project />
       </section>
       <section sx={{ mb: 5, p: { fontSize: [1, 2, 3], mt: 2 } }}>

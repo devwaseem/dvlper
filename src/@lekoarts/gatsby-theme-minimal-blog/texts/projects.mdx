@@ -1,6 +1,5 @@
 import ProjectContent from "../../../components/projectContent"
-
-#### Apps & Open source projects
+import { Link } from "gatsby"
 
 <ProjectContent 
     title = "NYTimes"
@@ -54,90 +53,9 @@ import ProjectContent from "../../../components/projectContent"
     
 />
 
----
-
-<ProjectContent 
-    title = "Notekeeper"
-    subtitle = "Intelligent Notekeeping App for college students powered by a friendly but hilarious Chatbot.Specially made for Crescent College. Students can upload their notes after verifying themselves with their registered number, others can download and rate the notebook to sort the quality."
-    techUsed = "Kotlin, Node js, Express js, Mongoose, MongoDB, REST Api"
-    images = {["/projects/notekeeper/notekeeper.png"]}
-    icon = "/projects/notekeeper/notekeeper-app-icon.png"
-    github = "https://github.com/devwaseem/notekeeper"
-    isIpad={true}
-/>
-
----
-<ProjectContent 
-    title = "devwaseem.github.io"
-    titleUrl = "https://devwaseem.github.io"
-    subtitle = "Designed and Developed portfolio website for freelancing"
-    techUsed = "React js, Github pages"
-    images = {["/projects/oldwebsite/oldwebsite.png"]}
-    github = "https://github.com/devwaseem/devwaseem.github.com"
-    isIpad={true}
-/>
-
----
-
-<ProjectContent 
-    title = "Crescentaero.in"
-    subtitle = "Designed and Developed registration and Workshop details page for One day workshop on Design and Development of Quadcopter UAV for my College"
-    techUsed = "React js"
-    images = {["/projects/crescentaero/crescentaero.png"]}
-    github = "https://github.com/devwaseem/crescentaero"
-    isIpad={true}
-/>
-
----
-
-<ProjectContent 
-    title = "Anonymous Bash"
-    subtitle = "Anonymous Bash Environment powered with TOR and Proxychains. This script automates the process of tor and proxychains and tunnels it to Bash Environment so you can run any aggressive commands anonymously"
-    techUsed = "Python, Tor, Proxychains, Linux"
-    images = {["/projects/opensource/anonymousbash.png"]}
-    github = "https://github.com/devwaseem/AnonymousBash"
-    isIpad={true}
-/>
-
----
-
-##### User Interfaces
-
-<ProjectContent 
-    title = "Signup UI"
-    images = {["/projects/userinterfaces/signupui.png"]}
-    isIpad={true}
-/>
-
----
-
-<ProjectContent 
-    title = "Checkout UI"
-    images = {["/projects/userinterfaces/checkoutui.png"]}
-    isIpad={true}
-/>
-
----
-
-
-<ProjectContent 
-    title = "Attendance Mangement Mobile App"
-    images = {["/projects/userinterfaces/attendanceui.png"]}
-    isIpad={true}
-/>
-
----
-
-<ProjectContent 
-    title = "Attendance Mangement Login UI"
-    subtitle=""
-    images = {["/projects/userinterfaces/attendance2ui.png"]}
-    isIpad={true}
-/>
-
-<a href="https://www.uplabs.com/devwaseem" target="_blank"><Text sx={{textAlign:"center",fontSize:20,backgroundColor:"#323646", width:150,display:`block`,margin:`0 auto`,color:`white`,borderRadius:50,padding:`8px`,mt:[50,20,20]}}>
-    More
+<Link to="/projects"><Text sx={{textAlign:"center",fontSize:20,backgroundColor:"#323646", width:320,display:`block`,margin:`0 auto`,color:`white`,borderRadius:50,padding:`8px`,mt:[50,20,20]}}>
+    More projects and UI designs
 </Text>
-</a>
+</Link>
 
 
