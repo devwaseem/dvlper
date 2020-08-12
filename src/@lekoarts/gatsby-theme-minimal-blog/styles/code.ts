@@ -135,6 +135,10 @@ const code = {
       content: `'yml'`,
       background: `#ffa8df`,
     },
+    "pre[class~='language-Swift']:before, pre[class~='language-swift']:before": {
+      content: `'swift'`,
+      background: `orange`,
+    },
     "pre[class~='language-markdown']:before": {
       content: `'md'`,
     },
