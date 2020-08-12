@@ -6,7 +6,7 @@ const shouldAnalyseBundle = process.env.ANALYSE_BUNDLE
 
 module.exports = {
   siteMetadata: {
-    siteTitle: `DVLPER`,
+    siteTitle: ` DVLPER`,
     siteTitleAlt: `DVLPER - iOS Developer Portfolio`,
     siteHeadline: `DVLPER - iOS Developer Portfolio`,
     author: `@Waseem Akram`,
