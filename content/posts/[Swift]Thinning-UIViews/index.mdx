@@ -1,0 +1,420 @@
+---
+title: "[Swift] Thinning UIViews"
+date: 2020-08-13
+tags:
+  - swift
+  - Xcode
+  - iOS-app-development
+banner: /banner.png
+description: Blog post explaining how initializing closure and writing our own interface like WAView can reduce a lot of time while creating views and increase readability.
+slug: "/blog/thinning-uiviews"
+---
+
+# Introduction 
+
+In this post, I will explain how you can make UIView subviews for your custom-designed views much faster and cleaner. Not only will your design look good but your code will too. Without further ado lets get started.
+
+![excited](https://media.giphy.com/media/rVbAzUUSUC6dO/giphy.gif)
+
+In my previous post, I have explained how we can split UIView from UIViewController to make UIViewController thin and modular, We'll use the code from my previous blog post. If you haven't checked the previous post, please [click here](/blog/swift-splitting-view-in-viewcontroller).
+
+# Setup
+
+This is an optional step. if you want to workout the code while you read this post, then follow these steps to get started.
+
+1. Clone the repo
+
+    ```bash
+    git clone https://github.com/devwaseem/splitting-view-from-viewcontroller-demo
+    cd splitting-view-from-viewcontroller-demo/
+    ```
+
+
+2. Change the branch
+
+    ```bash
+    git checkout thinning-uiview
+    ```
+    
+
+3. You are ready!
+
+# UIHugeSetupCode()
+
+Let us take a look at the TrafficView we have currently which is a subclass of UIView.
+
+```swift:title=TrafficView.swift {5,8,40}
+class TrafficView: UIView {
+    
+    /* ... */
+
+    // 1.
+    func setupViews(){
+        
+        //3. 
+        
+        //setup buttons
+        redButton.setTitle("Red", for: .normal)
+        redButton.setTitleColor(.systemRed, for: .normal)
+        redButton.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(redButtonTapped(_:))))
+        
+        yellowButton.setTitle("Yellow", for: .normal)
+        yellowButton.setTitleColor(.systemYellow, for: .normal)
+        yellowButton.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(yellowButtonTapped(_:))))
+        
+        greenButton.setTitle("Green", for: .normal)
+        greenButton.setTitleColor(.systemGreen, for: .normal)
+        greenButton.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(greenButtonTapped(_:))))
+        
+        // add to stackview
+        holdingStackView.addArrangedSubview(redButton)
+        holdingStackView.addArrangedSubview(yellowButton)
+        holdingStackView.addArrangedSubview(greenButton)
+        
+        //setup stackview
+        holdingStackView.axis = .vertical
+        holdingStackView.distribution = .fillEqually
+        holdingStackView.backgroundColor = .red
+        
+        //add to view
+        addSubview(holdingStackView)
+        
+        //setup constraints
+        setupConstraints()
+    }
+    
+    // 2.
+    func setupConstraints(){
+        holdingStackView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            holdingStackView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            holdingStackView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            holdingStackView.centerXAnchor.constraint(equalTo: centerXAnchor),
+            holdingStackView.centerYAnchor.constraint(equalTo: centerYAnchor),
+            holdingStackView.heightAnchor.constraint(equalToConstant: 250)
+        ])
+    }
+    
+    /* ... */
+}
+```
+
+Take a look at highlighted lines, the following code does,
+1. Setup views appearance like colors, shape, etc.
+2. Setup layout constraints / where the view should be placed in the screen.
+3. Setup additional configuration to views. E.g, adding a gesture recognizer to a view.
+
+
+Looking at the code above and in my experience in creating UIView subclasses, Every custom view implementation boils down into 3 steps, 
+1. **Setup Views.**
+2. **Setup Constraints.**
+3. **Setup Additional Configuration.**
+
+Thus, almost every custom view implementation follows this pattern. This pattern looks fine until the view code gets larger, the larger it gets, the readability gets compromised because of the setup code for every view we have to implement. Also since the pattern is repeated, it is considered as boilerplate for view code.
+
+# Fix?
+
+Since the implementation follows a pattern, we can simplify the pattern into a more robust and modular code.
+
+### Intializing with Closure
+
+We can use Swift's one of the great features, **Initializing closure**. In this approach, we move the setup code from setupViews() function to the initializing closure.
+
+The implementation looks like this
+
+```swift
+let variable:View = {
+    //create a view and return it
+}()
+```
+when implementing this in our code, it suddenly becomes a little cleaner and readable.
+
+```swift
+
+class TrafficView: UIView {
+    
+    private let holdingStackView:UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.distribution = .fillEqually
+        stackView.backgroundColor = .red
+        return stackView
+    }()
+    
+    
+    private let redButton:UIButton = {
+        let button = UIButton()
+        button.setTitle("Red", for: .normal)
+        button.setTitleColor(.systemRed, for: .normal)
+        return button
+    }()
+    
+    private let yellowButton:UIButton = {
+        let button = UIButton()
+        button.setTitle("Yellow", for: .normal)
+        button.setTitleColor(.systemYellow, for: .normal)
+        return button
+    }()
+    
+    
+    private let greenButton:UIButton = {
+        let button = UIButton()
+        button.setTitle("Green", for: .normal)
+        button.setTitleColor(.systemGreen, for: .normal)
+        return button
+    }()
+    
+    /* ... */
+    
+    func setupViews(){
+        
+        //setup gesture recognizers
+        redButton.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(redButtonTapped(_:))))
+        yellowButton.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(yellowButtonTapped(_:))))
+        greenButton.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(greenButtonTapped(_:))))
+        
+        // add to stackview
+        holdingStackView.addArrangedSubview(redButton)
+        holdingStackView.addArrangedSubview(yellowButton)
+        holdingStackView.addArrangedSubview(greenButton)
+        
+        //add to view
+        addSubview(holdingStackView)
+        
+        //setup constraints
+        setupConstraints()
+    }
+    
+    /* ... */
+}
+```
+The code already looks cleaner than before. Since the setup code is moved away, still the setupViews() function contains code for adding subviews, setting up constraints, and additional configuration for views. How can we make this more readable? 
+
+### WAView
+
+I wrote a WAView which works based on the repeated pattern as we saw earlier which takes out the boilerplate code and gives us a nice interface to achieve the same results as before. Let us see the code first then I'll explain how WAView can thin View code further.
+
+```swift:title=WAView.swift
+typealias WAView = WAViewBase & WAViewProtocol
+
+protocol WAViewProtocol: class {
+    var contentSubViews: [UIView] { get }
+    func setupConstraints(for size: CGSize)
+}
+
+class WAViewBase: UIView {
+            
+    override init(frame: CGRect) {
+        super.init(frame: .zero)
+        guard let view = self as? WAViewProtocol else {
+            fatalError("WAView not implemented")
+        }
+        //1
+        view.contentSubViews.forEach {
+            addSubview($0)
+        }
+        //2
+        setupViewsAdditionalConfiguration()
+    }
+
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+    }
+    
+    override func layoutSubviews() {
+        guard let view = self as? WAViewProtocol else {
+            fatalError("WAView not implemented")
+        }
+        //3
+        view.setupConstraints(for: frame.size)
+    }
+        
+    func setupViewsAdditionalConfiguration() {
+        
+    }
+    
+}
+```
+
+WAView takes care of 
+1. Adding subviews
+2. Addition view configuration
+3. Setup Constraints
+
+As we can see the WAView takes care of the boilerplate section of the view internally by providing us a nice interface, hence reducing the code. We can implement WAView in our TrafficView by just subclassing it.
+
+```swift:title=TrafficView.swift {36,41,53}
+class TrafficView: WAView {
+    
+    private let holdingStackView:UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.distribution = .fillEqually
+        stackView.backgroundColor = .red
+        return stackView
+    }()
+    
+    
+    private let redButton:UIButton = {
+        let button = UIButton()
+        button.setTitle("Red", for: .normal)
+        button.setTitleColor(.systemRed, for: .normal)
+        return button
+    }()
+    
+    private let yellowButton:UIButton = {
+        let button = UIButton()
+        button.setTitle("Yellow", for: .normal)
+        button.setTitleColor(.systemYellow, for: .normal)
+        return button
+    }()
+    
+    
+    private let greenButton:UIButton = {
+        let button = UIButton()
+        button.setTitle("Green", for: .normal)
+        button.setTitleColor(.systemGreen, for: .normal)
+        return button
+    }()
+    
+    /* ... */
+       
+    //1
+    var contentSubViews: [UIView] {
+        return [holdingStackView]
+    }
+    
+    //2
+    func setupConstraints(for size: CGSize) {
+        holdingStackView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            holdingStackView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            holdingStackView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            holdingStackView.centerXAnchor.constraint(equalTo: centerXAnchor),
+            holdingStackView.centerYAnchor.constraint(equalTo: centerYAnchor),
+            holdingStackView.heightAnchor.constraint(equalToConstant: 250)
+        ])
+    }
+    
+    //3
+    override func setupViewsAdditionalConfiguration() {
+        
+        //setup gesture recognizer
+        redButton.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(redButtonTapped(_:))))
+        yellowButton.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(yellowButtonTapped(_:))))
+        greenButton.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(greenButtonTapped(_:))))
+        
+        // add to stackview
+        holdingStackView.addArrangedSubview(redButton)
+        holdingStackView.addArrangedSubview(yellowButton)
+        holdingStackView.addArrangedSubview(greenButton)
+        
+    }
+    
+    /* ... */
+}
+```
+
+1. To add subviews to the view, we just have to pass the array of subviews to **contentSubViews**.
+2. **setupConstraints()** function takes care of layout and also provides us the option to modify the layout based on the view size.
+3. **setupViewsAdditionalConfiguration()** functions takes care of additional configuration such as adding gesture recognizer in out case.
+
+Now our code looks much better than before. The functions taking of what they are supposed to, reducing boilerplate code from view.
+
+# Final thoughts
+
+The larger the view code becomes, the readability gets compromised. So using initializing closure helps us to group the code related to view it belongs making it more readable. Also making an interface like WAView helps us to remove all those boilerplate codes and write our view code faster and cleaner.
+
+There is an alternative syntax for initializing closure, This approach however reduces one line which is initializing the view. Using it or not boils down to personal preference.
+
+```swift
+let redButton:UIButton = {
+    
+    $0.setTitle("Red", for: .normal)
+    $0.setTitleColor(.systemRed, for: .normal)
+    return $0
+    
+}(UIButton())
+
+```
+
+If you are wondering how to apply this WAView technique to UITableViewCells or UICollectionViewCells, It's quite simple. Take a look at this sample code.
+
+```swift
+typealias WATableViewCell = WATableViewCellBase & WATableViewCellProtocol
+
+protocol WATableViewCellProtocol: class {
+    var contentSubViews: [UIView] { get }
+    func setupConstraints(for size: CGSize)
+}
+
+class WATableViewCellBase: UITableViewCell {
+            
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        guard let view = self as? WATableViewCellProtocol else {
+            fatalError("WATableViewCell not implemented")
+        }
+        
+        view.contentSubViews.forEach {
+            addSubview($0)
+        }
+        setupViewsAdditionalConfiguration()
+    }
+
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+    }
+    
+    override func layoutSubviews() {
+        guard let view = self as? WATableViewCellProtocol else {
+            fatalError("WATableViewCell not implemented")
+        }
+        view.setupConstraints(for: frame.size)
+    }
+        
+    func setupViewsAdditionalConfiguration() {}
+    
+}
+```
+
+And implement like this
+
+```swift
+class TableViewCellImplementation:WATableViewCell {
+    
+    let title = UILabel()
+    
+    var contentSubViews: [UIView] {
+        [title]
+    }
+    
+    func setupConstraints(for size: CGSize) {
+        title.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            title.leadingAnchor.constraint(equalTo: leadingAnchor),
+            title.trailingAnchor.constraint(equalTo: trailingAnchor),
+            title.topAnchor.constraint(equalTo: topAnchor),
+            title.bottomAnchor.constraint(equalTo: bottomAnchor),
+        ])
+    }
+
+    override func prepareForReuse() {
+        title.text = ""
+    }
+    
+}
+```
+
+You can do the same technique for CollectionView as well.
+
+The source code for this post is available [here](https://github.com/devwaseem/splitting-view-from-viewcontroller-demo/tree/thinning-uiview)
+
+
+# Before you leave
+
+If you have any constructive criticism or any questions, please drop an email at [hello@dvlper.in](mailto:hello@dvlper.in) or ping me in [instagram](https://instagram.com/dvlp.er). I'll be happy to hear your feedback.
+
+Follow me on  [ Github](https://github.com/devwaseem), [Twitter](https://twitter.com/iamwaseem99), [Instagram](https://www.instagram.com/dvlp.er/), [Facebook](https://www.facebook.com/dvlprwaseem), [LinkedIn](https://www.linkedin.com/in/devwaseem/).
+
+![bye](https://media.giphy.com/media/42D3CxaINsAFemFuId/giphy.gif)

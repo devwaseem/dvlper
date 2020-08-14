@@ -3,8 +3,7 @@ title: "[Swift] Splitting View from ViewController"
 date: 2020-08-12
 tags:
   - swift
-  - xcode
-  - viewcontroller
+  - Xcode
   - iOS-app-development
 banner: ./images/banner.png
 description: Split View from Viewcontroller to make the viewcontroller thin and increase readability.
@@ -205,11 +204,11 @@ class ViewController: UIViewController {
 
 ![woah](https://media.giphy.com/media/ToMjGpnXBTw7vnokxhu/giphy.gif)
 
-If you notice, the view code is handled by viewcontroller, which totally violates the **MVC (Model-View-Controller)** architecture and **Single Responsibility Principle**. Currently, our code architecture looks like this
+If you notice, the view code is handled by view controller, which totally violates the **MVC (Model-View-Controller)** architecture and **Single Responsibility Principle**. Currently, our code architecture looks like this
 
 ![flawmvc](./images/flawmvc.png)
 
-Which clearly indicates the violation of **MVC** and **SRP**. This is one of many reason why some developers refer **MVC** as **Massive-View-Controller** 😆.
+Which clearly indicates the violation of **MVC** and **SRP**. This is one of many reasons why some developers refer **MVC** as **Massive-View-Controller** 😆.
 
 # Solution
 
@@ -218,7 +217,7 @@ This type of implementation completely violates the **Single Responsibility Prin
 
 Let's take out the view code from UIViewController and make it a separate UIView class.
 
-> Tip: You should name your UIView subclass file according to the viewcontroller. for eg LoginViewController view class will be LoginView.
+> Tip: You should name your UIView subclass file according to the view controller. for eg LoginViewController view class will be LoginView.
 
 In our case, We have ViewController file, let's assume TrafficViewController, so we will name out UIView subclass as TrafficView.
 
@@ -326,13 +325,13 @@ class TrafficView: UIView {
 }
 ```
 
-But how does viewcontroller know which button is tapped?
+But how does view controller know which button is tapped?
 
 🦸‍♂️ **Delegate to the rescue!!** ⚡️
 
 > You can also use closures instead of Delegates.
 
-create a TrafficViewDelegate to signal viewcontroller that button is tapped.
+create a TrafficViewDelegate to signal view controller that button is tapped.
 
 ```swift
 protocol TrafficViewDelegate:class {
@@ -428,11 +427,13 @@ Now since we moved the View code out of ViewController, our code architecture lo
 
 ![realmvc](./images/realmvc.png)
 
-# Conclusion
+# Final thoughts
 
 The code looks cleaner than ever. The code quality isn't only the thing we achieved but we also enforced our code to follow the **Model-View-Controller** and **Single Responsibility Principle** by splitting UIView code from UIViewController.
 
-### Before you leave
+The source code for this post is available [here](https://github.com/devwaseem/splitting-view-from-viewcontroller-demo/tree/master)
+
+# Before you leave
 
 If you have any constructive criticism or any questions, please drop an email at [hello@dvlper.in](mailto:hello@dvlper.in) or ping me in [instagram](https://instagram.com/dvlp.er). I'll be happy to hear your feedback.
 

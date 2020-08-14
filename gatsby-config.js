@@ -8,13 +8,13 @@ module.exports = {
   siteMetadata: {
     siteTitle: `DVLPER`,
     siteTitleAlt: `DVLPER - iOS Developer Portfolio`,
-    siteHeadline: `DVLPER - iOS Developer Portfolio`,
-    author: `@Waseem Akram`,
+    siteHeadline: ` DVLPER - iOS Developer Portfolio`,
+    author: ` Waseem Akram`,
     siteImage: `/banner.png`,
     banner: `/banner.png`,
     siteUrl: `https://dvlper.in`,
     siteLanguage: `en`,
-    siteDescription: `Waseem Akram - iOS Developer Portfolio`,
+    siteDescription: ` Waseem Akram - iOS Developer Portfolio`,
   },
   plugins: [
     {
