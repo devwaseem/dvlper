@@ -61,7 +61,10 @@ function ProjectContent({title,subtitle,images,icon,github,appstore,playstore,pr
             }
             { !isIpad && images && 
             <Flex sx={{flexDirection:"row",alignItems:"center",justifyContent:"center",flexWrap:`wrap`,mt:4}}>
-                {images.map((image) =>  <Zoom><Image  sx={{maxWidth:250,maxHeight:500,margin:4}} src={image} key={image}/></Zoom> )}
+                {images.map((image,index) =>  <Zoom key={index} >
+                    <Image sx={{maxWidth:250,maxHeight:500,margin:4}} src={image} key={image}/>
+                    </Zoom> 
+                    )}
             </Flex>
             }
             {isIpad && images &&
